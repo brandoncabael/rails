@@ -16,8 +16,8 @@ module ActiveStorage
       @upload_options = upload
     end
 
-    def upload(key, io, checksum: nil)
-      instrument :upload, key: key, checksum: checksum do
+    def upload(key, io, checksum: nil, **options)
+      instrument :upload, key: key, checksum: checksum, **options do
         begin
           object_for(key).put(upload_options.merge(body: io, content_md5: checksum))
         rescue Aws::S3::Errors::BadDigest
